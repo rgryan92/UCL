@@ -36,6 +36,9 @@ def calc_DT2(dtarray):
         pd.to_datetime(np.NaN)
 #%%
 ## Perform the readin and conversion on each file
+##   one output obspack .nc file is produced per day on which there was a sonde
+##   So if a sonde runs over midnight UTC, it will be split between two obspack
+##   netcdf files.
 for osf in files[:]:
     ## Use 'Readlines' to find the header of the file and location lat/lon
     f = open(osf, "r")
