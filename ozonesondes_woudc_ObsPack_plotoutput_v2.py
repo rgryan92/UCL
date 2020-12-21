@@ -4,6 +4,13 @@
 Created on Thu Oct  8 11:33:24 2020
 
 @author: rgryan
+
+This code reads in all ozone WOUDC sonde files in a folder, and for 
+each, looks for a GEOS-Chem obspack output file of the corresponding
+date. The vertical profile of the sonde and the GEOS-Chem result are 
+then plotted together.
+
+WOUDC OZONESONDE FILES AVAILABLE AT https://woudc.org/data/
 """
 
 import pandas as pd
@@ -11,11 +18,8 @@ from netCDF4 import Dataset
 import matplotlib.pyplot as plt
 import glob
 
+## Path to ozone sondes
 path = '/Volumes/GoogleDrive/My Drive/Documents/Postdoc/rockets/'
-
-outfile = path+'ozonesondes/obsPack_output/with_rockets/GEOSChem.ObsPack.20190801_0000z.nc4'
-inpfile = path+'ozonesondes/obsPack_input/obspack_O3_ozonesonde_2019-08-09_Payerne_CHE.nc'
-osf     = path+'ozonesondes/woudc_2019_ozonesondes/LT190807.csv'
 osp = path+'ozonesondes/woudc_2019_ozonesondes/'
 plotAvgs = True
 avgdfs_son,avgdfs_imp,avgdfs_gcn,avgdfs_gcw = [],[],[],[]
