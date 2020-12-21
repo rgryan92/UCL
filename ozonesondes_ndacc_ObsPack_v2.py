@@ -4,6 +4,9 @@
 Created on Wed Oct 28 14:39:48 2020
 
 @author: rgryan
+
+READS IN OZONE SONDE FILES DOWNLOADED FROM THE NDACC WEBSITE http://www.ndaccdemo.org/instruments/sonde
+AND CONVERTS THEM TO INPUT NETCDF FILES FOR THE GEOS-CHEM OBSPACK DIAGNOSTIC
 """
 
 import pandas as pd
@@ -12,12 +15,12 @@ from netCDF4 import Dataset
 import glob
 import os
 
-## Path to ozonesondes
+## PATH TO O3 SONDE FILES
 path = '/Volumes/GoogleDrive/My Drive/Documents/Postdoc/rockets/'
-osp = path+'ozonesondes/ndacc_2019_ozonesondes/test/'
 osp = path+'ozonesondes/ndacc_2019_ozonesondes/'
-outpath = path+'ozonesondes/obsPack_input/'
+outpath = path+'ozonesondes/obsPack_input/' # PATH FOR SAVED OUTPUT
 
+# LIST OF NDACC STATIONS FOR WHICH YOU'RE CONVERTING
 stations = ["dumont d'urville", "South Pole", "Belgrano", "Boulder", "Hilo",
              "Santa Cruz", "Natal Brazil" , "Neumayer", "Ny-Aalesund", 
              "Samoa", "Ittoqqortoormiit", "Wallops Flight Facility"]
@@ -32,9 +35,13 @@ def calc_DT2(dtarray):
     except ValueError:
         pd.to_datetime(np.NaN)
         
-## Using glob, this reads all .csv sonde files in the folder
-files = glob.glob(osp+'*.*')
+## USE "GLOB" TO READ IN ALL FILES IN YOUR OZONE SONDE DIRECTORY
+##    AN OBSPACK OUTPUT FILE IS PRODUCED FOR EACH DAY (UTC TIME) 
+##    ON WHICH THERE'S AN OZONE SONDE. SO, IF THE SONDE TIME GOES
+##    OVER MIDNIGHT UTC, IT WILL BE SPLIT BETWEEN TWO OBSPACK 
+##    FILES.
 
+files = glob.glob(osp+'*.*')
 successful, unsuccessful = [],[]
 for osf in files[:]:
     #print(osf)
